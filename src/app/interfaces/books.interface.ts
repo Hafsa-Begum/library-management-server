@@ -8,3 +8,7 @@ export interface IBooks {
     copies : number,
     available : boolean
 }
+
+export interface BookInstanceMethods {
+    updateAvailability(): void;
+}

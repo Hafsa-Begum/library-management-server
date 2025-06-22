@@ -12,11 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import { Server } from 'http';
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
-// let server: Server;
-const PORT = 5000;
+const PORT = 4000;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

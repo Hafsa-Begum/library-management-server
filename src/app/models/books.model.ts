@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import { IBooks } from "../interfaces/books.interface";
+import { BookInstanceMethods, IBooks } from "../interfaces/books.interface";
 
-const bookSchema = new Schema <IBooks>({
+const bookSchema = new Schema <IBooks, BookInstanceMethods>({
     title : { type: String, required: true, trim: true },
     author : { type: String, required: true, trim: true },
     genre : {
@@ -18,9 +18,10 @@ const bookSchema = new Schema <IBooks>({
     timestamps: true,
 });
 
-bookSchema.post("find", function ( doc) {
-    console.log("Inside post find hook", doc);
-    
+bookSchema.method("updateAvailability", function () {
+    console.log("Inside save method");
+    this.available = this.copies>0;
+    return this.save();
 })
 
-export const Book = model<IBooks>("Book", bookSchema);
+export const Book = model<IBooks, BookInstanceMethods>("Book", bookSchema);

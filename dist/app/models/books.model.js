@@ -18,4 +18,9 @@ const bookSchema = new mongoose_1.Schema({
     versionKey: false,
     timestamps: true,
 });
+bookSchema.method("updateAvailability", function () {
+    console.log("Inside save method");
+    this.available = this.copies > 0;
+    return this.save();
+});
 exports.Book = (0, mongoose_1.model)("Book", bookSchema);
