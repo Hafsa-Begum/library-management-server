@@ -1,4 +1,6 @@
 # Library Management Server With Mongoose and Typescript
+
+A backend API built using **Node.js**, **Express**, **TypeScript**, and **MongoDB (via Mongoose)** to manage a library's book inventory and borrow records.
 ## Project Setup Instructions
 1. Clone the project.
 ```
@@ -19,45 +21,45 @@ npm run start:dev
 ## 📒 API Endpoints
 1. Create Book
 
-POST /api/books
+    POST /api/books
 
 2. Get All Books
 
-GET /api/books
+    GET /api/books
 
-    Supports filtering, and sorting.
+Supports filtering, and sorting.
 
-    Example Query:
-    /api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5
+Example Query:
+/api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=5
 
-    Query Parameters:
-    filter: Filter by genre
-    sort: asc or desc
-    limit: Number of results (default: 10)
+Query Parameters:
+filter: Filter by genre
+sort: asc or desc
+limit: Number of results (default: 10)
 
 3. Get Book by ID
 
-GET /api/books/:bookId
+    GET /api/books/:bookId
 
 4. Update Book
 
-PUT /api/books/:bookId
+    PUT /api/books/:bookId
 
 5. Delete Book
 
-DELETE /api/books/:bookId
+    DELETE /api/books/:bookId
 
 6. Borrow a Book
 
-POST /api/borrow
+    POST /api/borrow
 
 7. Borrowed Books Summary (Using Aggregation)
 
-GET /api/borrow
+    GET /api/borrow
 
-    Purpose:
+Purpose:
 
-    Return a summary of borrowed books, including:
+Return a summary of borrowed books, including:
 
-    - Total borrowed quantity per book (totalQuantity)
-    - Book details: title and isbn
+- Total borrowed quantity per book (totalQuantity)
+- Book details: title and isbn
