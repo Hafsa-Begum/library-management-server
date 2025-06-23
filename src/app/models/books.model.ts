@@ -1,7 +1,7 @@
-import { model, Schema } from "mongoose";
-import { BookInstanceMethods, IBooks } from "../interfaces/books.interface";
+import { Model, model, Schema } from "mongoose";
+import { BookDocument } from "../interfaces/books.interface";
 
-const bookSchema = new Schema <IBooks, BookInstanceMethods>({
+const bookSchema = new Schema <BookDocument>({
     title : { type: String, required: true, trim: true },
     author : { type: String, required: true, trim: true },
     genre : {
@@ -24,4 +24,4 @@ bookSchema.method("updateAvailability", function () {
     return this.save();
 })
 
-export const Book = model<IBooks, BookInstanceMethods>("Book", bookSchema);
+export const Book:Model<BookDocument> = model<BookDocument>("Book", bookSchema);

@@ -21,16 +21,18 @@ exports.bookBorrowRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 
     const { book: bookId, quantity, dueDate } = req.body;
     const book = yield books_model_1.Book.findById(bookId);
     if (!book) {
-        return res.status(404).json({
+        res.status(404).json({
             success: false,
             message: "Book not found"
         });
+        return;
     }
     if (book.copies < quantity) {
-        return res.status(400).json({
+        res.status(400).json({
             success: false,
             message: "Enough Book copies not available"
         });
+        return;
     }
     book.copies -= quantity;
     yield book.updateAvailability();
@@ -40,11 +42,12 @@ exports.bookBorrowRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 
         dueDate
     });
     const borrow = yield newBorrow.save();
-    return res.status(201).json({
+    res.status(201).json({
         success: true,
         message: "Book borrowed successfully",
         data: borrow
     });
+    return;
 }));
 exports.bookBorrowRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const book = yield borrow_model_1.Borrow.aggregate([
@@ -76,10 +79,10 @@ exports.bookBorrowRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0
             },
         },
     ]);
-    console.log('first', book);
-    return res.status(200).json({
+    res.status(200).json({
         success: true,
         message: "Borrowed Book retrieved successfully",
         data: book
     });
+    return;
 }));

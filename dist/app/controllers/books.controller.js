@@ -26,14 +26,16 @@ exports.booksRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, fu
     });
 }));
 exports.booksRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { filter, sortBy, sort, limit = 10 } = req.query;
+    const { filter, sortBy = 'createdAt', sort = 'desc', limit = 10 } = req.query;
     const query = {};
     if (filter) {
         query.genre = filter;
     }
-    const sortOption = {};
-    sortOption[sortBy] = sort === 'desc' ? -1 : 1;
-    const books = yield books_model_1.Book.find(query).sort(sortOption).limit(Number(limit));
+    let books;
+    if (sortBy && sort) {
+        books = yield books_model_1.Book.find(query).sort({ sortBy: sort === 'desc' ? -1 : 1 }).limit(Number(limit));
+    }
+    books = yield books_model_1.Book.find(query).limit(Number(limit));
     res.status(200).json({
         success: true,
         message: "Books retrieved successfully",

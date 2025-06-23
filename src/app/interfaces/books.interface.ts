@@ -1,3 +1,4 @@
+import { HydratedDocument } from "mongoose";
 
 export interface IBooks {
     title : string,
@@ -10,5 +11,7 @@ export interface IBooks {
 }
 
 export interface BookInstanceMethods {
-    updateAvailability(): void;
+    updateAvailability(): Promise<void>;
 }
+
+export type BookDocument = HydratedDocument<IBooks, BookInstanceMethods>;

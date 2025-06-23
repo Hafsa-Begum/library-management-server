@@ -17,16 +17,16 @@ booksRoutes.post('/', async (req: Request, res: Response) => {
 
 booksRoutes.get('/', async (req: Request, res: Response) => {
 
-    const {filter, sortBy, sort, limit=10} = req.query;
-    const query = {};
+    const {filter, sortBy = 'createdAt', sort = 'desc', limit=10} = req.query;
+    const query: Record<string, any>  = {};
     if(filter){
         query.genre = filter
     }
-    const sortOption = {};
-    sortOption[sortBy] = sort === 'desc' ? -1 : 1;
-
-    const books = await Book.find(query).sort(sortOption).limit(Number(limit));
-
+    let books: any; 
+    if(sortBy && sort){
+        books = await Book.find(query).sort({sortBy: sort === 'desc' ? -1 : 1}).limit(Number(limit));
+    }
+    books = await Book.find(query).limit(Number(limit));
     res.status(200).json({
         success: true,
         message: "Books retrieved successfully",
