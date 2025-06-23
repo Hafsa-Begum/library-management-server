@@ -5,7 +5,7 @@ import { Borrow } from "../models/borrow.model";
 export const bookBorrowRoutes = express.Router();
 
 bookBorrowRoutes.post('/', async (req: Request, res: Response):Promise<void> => {
-
+  try {
     const {book:bookId, quantity, dueDate} = req.body;
     const book = await Book.findById(bookId);
     if(!book){
@@ -38,11 +38,18 @@ bookBorrowRoutes.post('/', async (req: Request, res: Response):Promise<void> => 
         data: borrow
     })
     return;
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong.",
+      success: false,
+      error: error
+  })
+  }
 });
 
 bookBorrowRoutes.get('/', async (req: Request, res: Response):Promise<void> => {
-    
-    const book = await Borrow.aggregate([
+    try {
+      const bookSummery = await Borrow.aggregate([
         {
           $group: {
             _id: '$book',
@@ -75,7 +82,14 @@ bookBorrowRoutes.get('/', async (req: Request, res: Response):Promise<void> => {
     res.status(200).json({
         success: true,
         message: "Borrowed Book retrieved successfully",
-        data: book
+        data: bookSummery
     })
     return;
+    } catch (error) {
+        res.status(500).json({
+          message: "Something went wrong.",
+          success: false,
+          error: error
+        })
+    }
 });
