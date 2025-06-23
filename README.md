@@ -1,6 +1,6 @@
 # Library Management Server With Mongoose and Typescript
 
-A backend API built using **Node.js**, **Express**, **TypeScript**, and **MongoDB (via Mongoose)** to manage a library's book inventory and borrow records.
+A backend API built using **Node.js**, **Express**, **TypeScript**, and **MongoDB (via Mongoose)** to manage a library's book inventory and borrow records. Deployed on vercel, live link[https://library-management-server-test.vercel.app].
 ## Project Setup Instructions
 1. Clone the project.
 ```
