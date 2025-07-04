@@ -2,10 +2,16 @@ import express, { Application, Request, Response } from 'express';
 import { booksRoutes } from './app/controllers/books.controller';
 import { bookBorrowRoutes } from './app/controllers/borrow.controller';
 import { notFoundHandler } from './app/middlewares/globalErrorHandler';
+import cors from 'cors';
 
 const app: Application = express();
 
-app.use(express.json())
+app.use(express.json());
+app.use(
+    cors({
+      origin: ['http://localhost:5173', 'https://library-management-system-mu-weld.vercel.app']
+    })
+);
 
 app.use("/api/books", booksRoutes);
 app.use("/api/borrow", bookBorrowRoutes);
