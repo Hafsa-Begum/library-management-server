@@ -28,7 +28,8 @@ booksRoutes.get('/', async (req: Request, res: Response) => {
         const filter = req.query.filter as string | undefined;
         const sortBy = req.query.sortBy as string | undefined;
         const sort = req.query.sort as string | undefined;
-        const limit = Number(req.query.limit) || 10;
+        // const limit = Number(req.query.limit) || 10;
+        const limit = Number(req.query.limit);
 
         const query: Record<string, any> = {};
 
