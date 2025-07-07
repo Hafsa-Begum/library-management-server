@@ -8,9 +8,7 @@ const app: Application = express();
 
 app.use(express.json());
 app.use(
-    cors({
-      origin: ['http://localhost:5173', 'https://library-management-system-mu-weld.vercel.app']
-    })
+    cors()
 );
 
 app.use("/api/books", booksRoutes);
