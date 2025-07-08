@@ -18,71 +18,89 @@ const books_model_1 = require("../models/books.model");
 const borrow_model_1 = require("../models/borrow.model");
 exports.bookBorrowRoutes = express_1.default.Router();
 exports.bookBorrowRoutes.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { book: bookId, quantity, dueDate } = req.body;
-    const book = yield books_model_1.Book.findById(bookId);
-    if (!book) {
-        res.status(404).json({
-            success: false,
-            message: "Book not found"
+    try {
+        const { book: bookId, quantity, dueDate } = req.body;
+        const book = yield books_model_1.Book.findById(bookId);
+        if (!book) {
+            res.status(404).json({
+                success: false,
+                message: "Book not found"
+            });
+            return;
+        }
+        if (book.copies < quantity) {
+            res.status(400).json({
+                success: false,
+                message: "Enough Book copies not available"
+            });
+            return;
+        }
+        book.copies -= quantity;
+        yield book.updateAvailability();
+        const newBorrow = new borrow_model_1.Borrow({
+            book: bookId,
+            quantity,
+            dueDate
+        });
+        const borrow = yield newBorrow.save();
+        res.status(201).json({
+            success: true,
+            message: "Book borrowed successfully",
+            data: borrow
         });
         return;
     }
-    if (book.copies < quantity) {
-        res.status(400).json({
+    catch (error) {
+        res.status(500).json({
+            message: "Something went wrong.",
             success: false,
-            message: "Enough Book copies not available"
+            error: error
         });
-        return;
     }
-    book.copies -= quantity;
-    yield book.updateAvailability();
-    const newBorrow = new borrow_model_1.Borrow({
-        book: bookId,
-        quantity,
-        dueDate
-    });
-    const borrow = yield newBorrow.save();
-    res.status(201).json({
-        success: true,
-        message: "Book borrowed successfully",
-        data: borrow
-    });
-    return;
 }));
 exports.bookBorrowRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const book = yield borrow_model_1.Borrow.aggregate([
-        {
-            $group: {
-                _id: '$book',
-                totalQuantity: { $sum: '$quantity' },
-            },
-        },
-        {
-            $lookup: {
-                from: 'books',
-                localField: '_id',
-                foreignField: '_id',
-                as: 'bookInfo',
-            },
-        },
-        {
-            $unwind: '$bookInfo',
-        },
-        {
-            $project: {
-                _id: 0,
-                book: {
-                    title: '$bookInfo.title',
-                    isbn: '$bookInfo.isbn',
+    try {
+        const bookSummery = yield borrow_model_1.Borrow.aggregate([
+            {
+                $group: {
+                    _id: '$book',
+                    totalQuantity: { $sum: '$quantity' },
                 },
-                totalQuantity: 1,
             },
-        },
-    ]);
-    res.status(200).json({
-        success: true,
-        message: "Borrowed Book retrieved successfully",
-        data: book
-    });
-    return;
+            {
+                $lookup: {
+                    from: 'books',
+                    localField: '_id',
+                    foreignField: '_id',
+                    as: 'bookInfo',
+                },
+            },
+            {
+                $unwind: '$bookInfo',
+            },
+            {
+                $project: {
+                    _id: 0,
+                    book: {
+                        title: '$bookInfo.title',
+                        isbn: '$bookInfo.isbn',
+                    },
+                    totalQuantity: 1,
+                },
+            },
+        ]);
+        res.status(200).json({
+            success: true,
+            message: "Borrowed Book retrieved successfully",
+            data: bookSummery
+        });
+        return;
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Something went wrong.",
+            success: false,
+            error: error
+        });
+    }
 }));

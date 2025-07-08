@@ -11,7 +11,7 @@ const borrowSchema = new mongoose_1.Schema({
     quantity: {
         type: Number,
         required: true,
-        min: [0, 'Book quantity must be positive number, got {VALUE}']
+        min: [1, 'Book quantity must be greater than 0, got {VALUE}']
     },
     dueDate: {
         type: Date,

@@ -5,7 +5,7 @@ exports.notFoundHandler = void 0;
 const notFoundHandler = (req, res, next) => {
     res.status(404).json({
         success: false,
-        message: `🔍 Not Found: ${req.originalUrl}`,
+        message: `🔍 Route Not Found: ${req.originalUrl}`,
     });
 };
 exports.notFoundHandler = notFoundHandler;

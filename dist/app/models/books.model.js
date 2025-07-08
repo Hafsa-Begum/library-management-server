@@ -19,7 +19,6 @@ const bookSchema = new mongoose_1.Schema({
     timestamps: true,
 });
 bookSchema.method("updateAvailability", function () {
-    console.log("Inside save method");
     this.available = this.copies > 0;
     return this.save();
 });
