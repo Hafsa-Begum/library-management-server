@@ -25,24 +25,25 @@ booksRoutes.post('/', async (req: Request, res: Response) => {
 
 booksRoutes.get('/', async (req: Request, res: Response) => {
     try {
-        const filter = req.query.filter as string | undefined;
-        const sortBy = req.query.sortBy as string | undefined;
-        const sort = req.query.sort as string | undefined;
-        // const limit = Number(req.query.limit) || 10;
-        const limit = Number(req.query.limit);
+        // const filter = req.query.filter as string | undefined;
+        // const sortBy = req.query.sortBy as string | undefined;
+        // const sort = req.query.sort as string | undefined;
+        // // const limit = Number(req.query.limit) || 10;
+        // const limit = Number(req.query.limit);
 
-        const query: Record<string, any> = {};
+        // const query: Record<string, any> = {};
 
-        if (filter) {
-        query.genre = filter;
-        }
+        // if (filter) {
+        // query.genre = filter;
+        // }
 
-        const sortOption: Record<string, 1 | -1> = {};
-        if (sortBy && (sort === 'asc' || sort === 'desc')) {
-        sortOption[sortBy] = sort === 'desc' ? -1 : 1;
-        }
+        // const sortOption: Record<string, 1 | -1> = {};
+        // if (sortBy && (sort === 'asc' || sort === 'desc')) {
+        // sortOption[sortBy] = sort === 'desc' ? -1 : 1;
+        // }
 
-        const books = await Book.find(query).sort(sortOption).limit(limit);
+        // const books = await Book.find(query).sort(sortOption).limit(limit);
+        const books = await Book.find({});
         res.status(200).json({
             success: true,
             message: "Books retrieved successfully",
